@@ -1,7 +1,7 @@
 ﻿using UseCase23;
 
-// See https://aka.ms/new-console-template for more information
+//var test = new Test();
+//test.Run();
 
-//Console.WriteLine("Hello, World!");
-var test = new Test();
-test.Run();
+var generator = new Generator();
+generator.Run();

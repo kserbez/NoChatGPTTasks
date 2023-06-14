@@ -18,7 +18,7 @@ namespace UseCase23
         public void Run()
         {
             //Set the randomizer seed if you wish to generate repeatable data sets.
-            Randomizer.Seed = new Random(8675309);
+            Randomizer.Seed = new Random(Guid.NewGuid().GetHashCode());
 
             var fruit = new[] { "apple", "banana", "orange", "strawberry", "kiwi" };
 
@@ -70,18 +70,22 @@ namespace UseCase23
             //var user = testUsers.Generate();
             //Console.WriteLine(user.DumpAsJson());
 
-            List<User> users = testUsers.Generate(3);
+            List<User> users = testUsers.Generate(10);
+            WriteUsersToCsv(users);
 
-            // serialize and save to CSV
+        }
+
+        private void WriteUsersToCsv(List<User> users)
+        {
             string csvString = CsvSerializer.SerializeToCsv(users);
             byte[] csvBytes = System.Text.Encoding.Unicode.GetBytes(csvString);
             //var x = File(csvBytes, "text/csv", "foo.csv");
             string fileName = "Output.csv";
-            File.AppendAllText(fileName, csvString);
-            //File.WriteAllBytes(fileName, csvBytes);
+            File.Delete(fileName);
+            //File.WriteAllText(fileName, csvString);
+            File.WriteAllBytes(fileName, csvBytes);
             //var file = File.Create(csvBytes, "text/csv", "foo.csv");
             //file.Write(csvBytes);
-
         }
 
         private Bogus.DataSets.Name.Gender GetBogusGender(Gender g)
